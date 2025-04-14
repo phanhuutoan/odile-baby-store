@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { Card, CardContent } from "@/components/ui/card"
+import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function Categories() {
   const categories = [
@@ -39,7 +39,7 @@ export default function Categories() {
       image: "/placeholder.svg?height=150&width=150",
       count: "38 items",
     },
-  ]
+  ];
 
   return (
     <section className="bg-baby-pink/10 py-12 md:py-16 lg:py-20">
@@ -47,16 +47,20 @@ export default function Categories() {
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter text-baby-pink sm:text-4xl md:text-5xl">
-              Shop by Category
+              Mua sắm theo danh mục
             </h2>
             <p className="max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-              Find everything you need, organized by category for easy shopping.
+              Bạn cần tìm kiếm các sản phẩm như sữa, bỉm, đồ ăn dặm?
             </p>
           </div>
         </div>
         <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 py-12 md:grid-cols-3 md:gap-8">
           {categories.map((category) => (
-            <Link key={category.id} href={`/category/${category.id}`} className="group">
+            <Link
+              key={category.id}
+              href={`/category/${category.id}`}
+              className="group"
+            >
               <Card className="overflow-hidden transition-all hover:shadow-md">
                 <CardContent className="p-4 flex flex-col items-center text-center">
                   <div className="mb-3 rounded-full bg-baby-pink/10 p-2">
@@ -68,8 +72,12 @@ export default function Categories() {
                       width="64"
                     />
                   </div>
-                  <h3 className="text-lg font-medium text-baby-pink group-hover:underline">{category.name}</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{category.count}</p>
+                  <h3 className="text-lg font-medium text-baby-pink group-hover:underline">
+                    {category.name}
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {category.count}
+                  </p>
                 </CardContent>
               </Card>
             </Link>
@@ -77,5 +85,5 @@ export default function Categories() {
         </div>
       </div>
     </section>
-  )
+  );
 }

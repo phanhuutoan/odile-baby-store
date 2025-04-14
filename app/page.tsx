@@ -1,8 +1,7 @@
-import Hero from "@/components/hero"
-import FeaturedProducts from "@/components/featured-products"
-import Categories from "@/components/categories"
-import Newsletter from "@/components/newsletter"
-import Testimonials from "@/components/testimonials"
+import Hero from "@/components/hero";
+import FeaturedProducts from "@/components/featured-products";
+import Categories from "@/components/categories";
+import ContactInfo from "@/components/contact-info";
 
 export default function Home() {
   return (
@@ -10,8 +9,7 @@ export default function Home() {
       <Hero />
       <FeaturedProducts />
       <Categories />
-      <Testimonials />
-      <Newsletter />
+      <ContactInfo />
     </main>
-  )
+  );
 }
