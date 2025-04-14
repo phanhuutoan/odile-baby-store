@@ -1,14 +1,38 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ShoppingCart, Menu, Search, X, Heart, User } from "lucide-react"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ShoppingCart, Menu, Search, X, Heart, User } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
+
+interface NavItem {
+  href: string;
+  label: string;
+  mobileHidden?: boolean;
+}
+
+const navigationItems: NavItem[] = [
+  { href: "/", label: "Trang chủ" },
+  { href: "/shop", label: "Sản phẩm" },
+  { href: "/categories", label: "Danh mục", mobileHidden: true },
+  { href: "/about", label: "Về chúng tôi" },
+  { href: "/contact", label: "Liên hệ" },
+];
 
 export default function SiteHeader() {
-  const [showSearch, setShowSearch] = useState(false)
+  const [showSearch, setShowSearch] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (path: string) => {
+    if (path === "/") {
+      return pathname === path;
+    }
+    return pathname.startsWith(path);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -22,43 +46,48 @@ export default function SiteHeader() {
           </SheetTrigger>
           <SheetContent side="left" className="w-[300px] sm:w-[400px]">
             <nav className="flex flex-col gap-4 mt-8">
-              <Link href="/" className="text-lg font-medium hover:text-baby-pink transition-colors">
-                Home
-              </Link>
-              <Link href="/shop" className="text-lg font-medium hover:text-baby-pink transition-colors">
-                Shop
-              </Link>
-              <Link href="/categories" className="text-lg font-medium hover:text-baby-pink transition-colors">
-                Categories
-              </Link>
-              <Link href="/about" className="text-lg font-medium hover:text-baby-pink transition-colors">
-                About Us
-              </Link>
-              <Link href="/contact" className="text-lg font-medium hover:text-baby-pink transition-colors">
-                Contact
-              </Link>
+              {navigationItems.map(
+                (item) =>
+                  !item.mobileHidden && (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={cn(
+                        "text-lg font-medium transition-colors",
+                        isActive(item.href)
+                          ? "text-baby-pink"
+                          : "hover:text-baby-pink"
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  )
+              )}
             </nav>
           </SheetContent>
         </Sheet>
         <Link href="/" className="mr-6 flex items-center space-x-2">
-          <span className="text-xl font-bold text-baby-pink">Little Treasures</span>
+          <img
+            src="logo/logo_text.png"
+            alt="Odile baby store"
+            className="h-14"
+          />
         </Link>
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          <Link href="/" className="hover:text-baby-pink transition-colors">
-            Home
-          </Link>
-          <Link href="/shop" className="hover:text-baby-pink transition-colors">
-            Shop
-          </Link>
-          <Link href="/categories" className="hover:text-baby-pink transition-colors">
-            Categories
-          </Link>
-          <Link href="/about" className="hover:text-baby-pink transition-colors">
-            About Us
-          </Link>
-          <Link href="/contact" className="hover:text-baby-pink transition-colors">
-            Contact
-          </Link>
+          {navigationItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                "transition-colors relative",
+                isActive(item.href)
+                  ? "text-baby-pink after:absolute after:bottom-[-20px] after:left-0 after:h-[2px] after:w-full after:bg-baby-pink"
+                  : "hover:text-baby-pink"
+              )}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
         <div className="flex items-center space-x-1 ml-auto">
           {showSearch ? (
@@ -68,13 +97,21 @@ export default function SiteHeader() {
                 placeholder="Search products..."
                 type="search"
               />
-              <Button variant="ghost" size="icon" onClick={() => setShowSearch(false)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowSearch(false)}
+              >
                 <X className="h-5 w-5" />
                 <span className="sr-only">Close search</span>
               </Button>
             </div>
           ) : (
-            <Button variant="ghost" size="icon" onClick={() => setShowSearch(true)}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowSearch(true)}
+            >
               <Search className="h-5 w-5" />
               <span className="sr-only">Search</span>
             </Button>
@@ -94,5 +131,5 @@ export default function SiteHeader() {
         </div>
       </div>
     </header>
-  )
+  );
 }
